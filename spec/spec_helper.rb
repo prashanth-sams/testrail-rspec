@@ -6,6 +6,7 @@ require 'selenium-webdriver'
 require 'site_prism'
 require 'pages/app'
 require 'byebug'
+require './lib/testrail-rspec'
 
 RSpec.configure do |config|
 
@@ -30,4 +31,7 @@ RSpec.configure do |config|
     @app ||= App.new
   end
 
+  config.after(:each) do |scenario|
+    TestrailRSpec::UpdateTestRails.new(scenario).upload_result
+  end
 end

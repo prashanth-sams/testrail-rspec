@@ -5,8 +5,12 @@ feature 'Verify Google Home Page' do
     @app.google_home.load
   end
 
-  scenario 'verify the Google home page', :ae do
+  scenario 'C845 verify the Google home page' do
     expect(page).to have_content('Google')
+  end
+
+  scenario 'C847 verify the Google home page to fail' do
+    expect(page).to have_content('Goo gle')
   end
 
 end
