@@ -13,7 +13,8 @@ require 'testrail-rspec'
 
 **Sync Case ID in your BDD scenario**
 
-Prefix TestRail Case ID on start of your rspec scenario; say, C860
+Prefix TestRail Case ID on start of your rspec scenario; say, `C860`
+
 ```
   describe 'Verify Google Home Page' do
     

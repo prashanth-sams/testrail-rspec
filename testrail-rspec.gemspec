@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = "testrail-rspec"
-  s.version       = "0.1.0"
+  s.version       = "0.1.1"
   s.licenses      = ['MIT']
   s.author        = ["Prashanth Sams"]
   s.email         = ['sams.prashanth@gmail.com']

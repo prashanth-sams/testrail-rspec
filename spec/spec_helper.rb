@@ -6,7 +6,7 @@ require 'selenium-webdriver'
 require 'site_prism'
 require 'pages/app'
 require 'byebug'
-require './lib/testrail-rspec'
+require 'testrail-rspec'
 
 RSpec.configure do |config|
 
