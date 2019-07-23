@@ -1,5 +1,5 @@
 # testrail-rspec
-> Sync `Rspec` Automation results with your `testrail` suite
+> Sync `Rspec` test results with your `testrail` suite
 
 **Install gem file**
 ```
