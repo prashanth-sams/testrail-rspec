@@ -1,4 +1,4 @@
-# testrail-capybara
+# testrail-rspec
 > Sync `Rspec` Automation results with your `testrail` suite
 
 **Install gem file**
