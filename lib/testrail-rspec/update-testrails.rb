@@ -22,14 +22,26 @@ module TestrailRSpec
       response = {}
       case_id = @scenario.metadata[:description].split(' ').first.scan(/\d+/).first rescue nil
 
-      status_id = get_status_id 'passed'.to_sym if @scenario.exception == nil
-      status_id = get_status_id 'failed'.to_sym if @scenario.exception != nil
+      if (@scenario.exception) && (!@scenario.exception.message.include? 'pending')
+        status_id = get_status_id 'failed'.to_sym
+        message = @scenario.exception.message
+      elsif @scenario.skipped?
+        status_id = get_status_id 'blocked'.to_sym
+        message = "This test scenario is skipped from test execution"
+      elsif @scenario.pending?
+        status_id = get_status_id 'blocked'.to_sym
+        message = "This test scenario is pending for test execution"
+      else
+        status_id = get_status_id 'passed'.to_sym
+        message = "This test scenario was automated and passed successfully"
+      end
+
       run_id = @config['run_id']
 
       if case_id && run_id
         response = client.send_post(
             "add_result_for_case/#{run_id}/#{case_id}",
-            { status_id: status_id }
+            { status_id: status_id, comment: message }
         )
       else
         raise 'unable to get case id or run id'
