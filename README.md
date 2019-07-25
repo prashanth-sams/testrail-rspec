@@ -6,12 +6,12 @@
 gem 'testrail-rspec'
 ```
 
-**Import the library in your env file**
+**Import the library in your `spec_helper.rb` file**
 ```
 require 'testrail-rspec'
 ```
 
-**Sync Case ID in your BDD scenario**
+**Sync Case ID in your RSpec scenario**
 
 Prefix TestRail Case ID on start of your rspec scenario; say, `C860`
 
@@ -50,7 +50,7 @@ testrail:
   run_id: 111
 ```
 
-**Update the results through Hooks on end of each test**
+**Update the results through `Hooks` on end of each test**
 ```
 config.after(:each) do |scenario|
     TestrailRSpec::UpdateTestRails.new(scenario).upload_result
