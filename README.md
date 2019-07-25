@@ -1,5 +1,6 @@
 # testrail-rspec
-> Sync `Rspec` test results with your `testrail` suite
+[![Gem Version](https://badge.fury.io/rb/testrail-rspec.svg)](http://badge.fury.io/rb/testrail-rspec)
+> Sync `Rspec` test results with your `testrail` suite. Discover an example with Capybara in this gem source.
 
 **Install gem file**
 ```
