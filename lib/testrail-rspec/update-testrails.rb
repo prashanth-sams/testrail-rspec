@@ -4,14 +4,20 @@ module TestrailRSpec
   class UpdateTestRails
     attr_accessor :client
 
-    def initialize(scenario)
+    def initialize(scenario, config: {})
       @scenario = scenario
 
       if File.exist? './testrail_config.yml'
         @config = YAML.load_file("./testrail_config.yml")['testrail']
         raise 'TestRail configuration file not loaded successfully' if @config.nil?
-      else
-        raise 'TestRail configuration file is required'
+      end
+
+      if !config.nil? && !config.empty?
+        @config = (@config || {}).merge(config)
+      end
+
+      if @config.nil? || @config.empty?
+        raise 'TestRail configuration file or hash is required'
       end
 
       setup_testrail_client
