@@ -13,11 +13,7 @@ feature 'Verify Google Home Page' do
     expect(page).to have_content('Goo gle')
   end
 
-  scenario 'C850 verify the Google home page to be pending' do
-    pending
-  end
-
-  scenario 'C853 verify the Google home page to skip' do
+  scenario 'C850 verify the Google home page to skip' do
     skip "skipping this test"
   end
 

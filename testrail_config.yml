@@ -2,4 +2,6 @@ testrail:
   url: https://your_url.testrail.io/
   user: your_username
   password: your_password
-  run_id: your_run_id
+  run_id: <run_id>
+  project_id: <project_id>
+  suite_id: <suite_id>
