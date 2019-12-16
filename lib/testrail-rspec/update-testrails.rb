@@ -36,11 +36,13 @@ module TestrailRSpec
         message = "This test scenario was automated and passed successfully"
       end
 
-      run_id = @config['run_id']
+      @run_id ||= @config['run_id']
+      @run_id = @@run_id rescue @@run_id = nil unless @config['run_id']
+      @run_id = @@run_id = client.create_test_run("add_run/#{@config['project_id']}", { "suite_id": @config['suite_id']}) if @run_id.nil?
 
-      if case_id && run_id
+      if case_id && @run_id
         response = client.send_post(
-            "add_result_for_case/#{run_id}/#{case_id}",
+            "add_result_for_case/#{@run_id}/#{case_id}",
             { status_id: status_id, comment: message }
         )
       else
