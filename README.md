@@ -4,8 +4,9 @@
 
 ### Features
 - [x] Update test results in the existing test run
-- [x] Create dynamic tlts in the existing test run
+- [x] Create dynamic test run and update test results in it
 - [x] Update multi-testrail cases from a single automation scenario 
+- [x] Static status comments on all the scenarios 
 
 ## Installation
 
