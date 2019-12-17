@@ -4,7 +4,8 @@
 
 ### Features
 - [x] Update test results in the existing test run
-- [x] Create dynamic test run and update test results in it
+- [x] Create dynamic tlts in the existing test run
+- [x] Update multi-testrail cases from a single automation scenario 
 
 ## Installation
 
@@ -30,8 +31,7 @@ require 'testrail-rspec'
 
 ## #Usage outline
 
-#### Sync Case ID
-
+#### Update one case at a time
 Prefix TestRail Case ID on start of your rspec scenario; say, `C845`
 
 ```ruby
@@ -49,6 +49,28 @@ Prefix TestRail Case ID on start of your rspec scenario; say, `C845`
       skip "skipping this test"
     end
   
+  end
+```
+
+#### Update multi-cases at a time
+
+Prefix multiple TestRail Case IDs on start of your rspec scenario; say, `C845 C845 your scenario description`
+
+```ruby
+  describe 'Verify Google Home Page' do
+    
+    scenario 'C847 C846 C845 verify the Google home page' do
+      expect(page).to have_content('Google')
+    end
+  
+    scenario 'C848 C849 verify the Google home page to fail' do
+      expect(page).to have_content('Goo gle')
+    end
+    
+    scenario 'verify the Google home page to fail' do
+      expect(page).to have_content('Goo gle')
+    end
+    
   end
 ```
 

@@ -20,7 +20,15 @@ module TestrailRSpec
     def upload_result
 
       response = {}
-      case_id = @scenario.metadata[:description].split(' ').first.scan(/\d+/).first rescue nil
+
+      case_list = []
+      @scenario.metadata[:description].split(' ').map do |e|
+        val = e.scan(/\d+/).first
+        next if val.nil?
+        case_list << val
+      end
+
+      return if case_list.empty?
 
       if (@scenario.exception) && (!@scenario.exception.message.include? 'pending')
         status_id = get_status_id 'failed'.to_sym
@@ -40,13 +48,11 @@ module TestrailRSpec
       @run_id = @@run_id rescue @@run_id = nil unless @config['run_id']
       @run_id = @@run_id = client.create_test_run("add_run/#{@config['project_id']}", { "suite_id": @config['suite_id']}) if @run_id.nil?
 
-      if case_id && @run_id
+      case_list.map do |case_id|
         response = client.send_post(
             "add_result_for_case/#{@run_id}/#{case_id}",
             { status_id: status_id, comment: message }
         )
-      else
-        raise 'unable to get case id or run id'
       end
 
       response

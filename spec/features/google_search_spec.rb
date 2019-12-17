@@ -17,4 +17,12 @@ feature 'Verify Google Home Page' do
     skip "skipping this test"
   end
 
+  scenario 'C856 C859 C860 verify the Google home page to skip' do
+    expect(page).to have_content('Goo gle')
+  end
+
+  scenario 'verify the Google home page to skip' do
+    expect(page).to have_content('Google')
+  end
+
 end
