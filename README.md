@@ -30,7 +30,7 @@ $ gem install testrail-rspec
 require 'testrail-rspec'
 ```
 
-## #Usage outline
+## Usage outline
 
 #### Update one case at a time
 Prefix TestRail Case ID on start of your rspec scenario; say, `C845`
@@ -54,7 +54,6 @@ Prefix TestRail Case ID on start of your rspec scenario; say, `C845`
 ```
 
 #### Update multi-cases at a time
-
 Prefix multiple TestRail Case IDs on start of your rspec scenario; say, `C845 C845 your scenario description`
 
 ```ruby
@@ -75,7 +74,44 @@ Prefix multiple TestRail Case IDs on start of your rspec scenario; say, `C845 C8
   end
 ```
 
-#### TestRail details
+#### Use context blocks to update cases
+Prefix context blocks with TestRail Case IDs to make use of Shared Examples
+
+```ruby
+shared_examples 'log in' do
+  it 'logs in'
+end
+
+shared_examples 'log out' do
+  it 'logs out'
+end
+
+describe 'basic user stuff' do
+  context 'A regular user can' do
+    let(:user) { create(:regular_user) }
+    context 'C1232' do
+      include_examples 'log in'
+    end
+
+    context 'C1233' do
+      include_examples 'log out'
+    end
+  end
+
+  context 'An admin user can' do
+    let(:user) { create(:admin_user) }
+    context 'C1234' do
+      include_examples 'log in'
+    end
+
+    context 'C1235' do
+      include_examples 'log out'
+    end
+  end
+end
+```
+
+## TestRail Configuration
 
 Provide TestRail details by creating a config file, `testrail_config.yml` in the project parent folder
 

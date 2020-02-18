@@ -22,7 +22,7 @@ module TestrailRSpec
       response = {}
 
       case_list = []
-      @scenario.metadata[:description].split(' ').map do |e|
+      @scenario.full_description.split(' ').map do |e|
         val = e.scan(/\d+/).first
         next if val.nil?
         case_list << val
