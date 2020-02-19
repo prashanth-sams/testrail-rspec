@@ -86,6 +86,8 @@ module TestRail
       end
       response = conn.request(request)
 
+      return if response.code == "400"
+
       if response.body && !response.body.empty?
         result = JSON.parse(response.body)
         return result['id'] if @add_test

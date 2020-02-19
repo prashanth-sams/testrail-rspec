@@ -7,6 +7,7 @@
 - [x] Create dynamic test run and update test results in it
 - [x] Update multi-testrail cases from a single automation scenario 
 - [x] Static status comments on all the scenarios 
+- [x] Support for RSpec `shared examples` 
 
 ## Installation
 
@@ -30,7 +31,7 @@ $ gem install testrail-rspec
 require 'testrail-rspec'
 ```
 
-## #Usage outline
+## Usage outline
 
 #### Update one case at a time
 Prefix TestRail Case ID on start of your rspec scenario; say, `C845`
@@ -54,8 +55,7 @@ Prefix TestRail Case ID on start of your rspec scenario; say, `C845`
 ```
 
 #### Update multi-cases at a time
-
-Prefix multiple TestRail Case IDs on start of your rspec scenario; say, `C845 C845 your scenario description`
+Prefix multiple testrail case id(s) on start of your rspec scenario; say, `C845 C845 your scenario description`
 
 ```ruby
   describe 'Verify Google Home Page' do
@@ -75,37 +75,67 @@ Prefix multiple TestRail Case IDs on start of your rspec scenario; say, `C845 C8
   end
 ```
 
-#### TestRail details
+#### Use context blocks to update cases
+`Context blocks` with testrail case id(s) to make use of `Shared Examples`
 
-Provide TestRail details by creating a config file, `testrail_config.yml` in the project parent folder
+```ruby
+shared_examples 'log in' do
+  it 'logs in'
+end
 
-> With existing `Test Run`
+shared_examples 'log out' do
+  it 'logs out'
+end
 
-- Add testrail details (`url`, `user`, `password`, and `run_id`)
-- `run_id` is the dynamically generated id from your testrail account (say, `run_id: 111`)
+describe 'User login' do
+  context 'Regular user' do
+    let(:user) { create(:regular_user) }
+    context 'C845 single case' do
+      include_examples 'log in'
+    end
 
-```yaml
-testrail:
-  url: https://your_url.testrail.io/
-  user: your@email.com
-  password: ******
-  run_id: 111
+    context 'C847' do
+      include_examples 'log out'
+    end
+  end
+
+  context 'Admin user' do
+    let(:user) { create(:admin_user) }
+    context 'C850 C853 multi cases' do
+      include_examples 'log in'
+    end
+
+    context 'nothing to update in test-rail' do
+      include_examples 'log out'
+    end
+  end
+end
 ```
 
-> Create dynamic `Test Run` and update results
+#### Configuration
 
-- Add testrail details following `project_id` and `suite_id`
-- `project_id` and `suite_id` are the dynamically generated id from your testrail account
-- `run_id` is optional here; you may (or) may not have it in this case
+1. Create a config file, `testrail_config.yml` in the project's parent folder
+2. Enter the testrail details based on demand
+3. To execute tests against the existing `Test Run`,
+    ```yaml
+    testrail:
+      url: https://your_url.testrail.io/
+      user: your@email.com
+      password: ******
+      run_id: 111
+    ```
+    Here, `run_id` is the dynamically generated id from your testrail account (say, `run_id: 111`)
 
-```yaml
-testrail:
-  url: https://your_url.testrail.io/
-  user: your@email.com
-  password: ******
-  project_id: 10
-  suite_id: 110
-```
+4. To create a dynamic `Test Run` and to update results,
+    ```yaml
+    testrail:
+      url: https://your_url.testrail.io/
+      user: your@email.com
+      password: ******
+      project_id: 10
+      suite_id: 110
+    ```
+    Here, `project_id` and `suite_id` are the dynamically generated id from your testrail account; `run_id` is optional in this case.
 
 #### Hooks
 
@@ -116,7 +146,7 @@ config.after(:each) do |scenario|
 end
 ```
 
-**Is there a demo available for this gem?**
+**Is there any demo available for this gem?**
 
 Yes, you can use this `capybara` demo as an example, https://github.com/prashanth-sams/testrail-rspec
 
