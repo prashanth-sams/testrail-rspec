@@ -6,6 +6,7 @@
 - [x] Update test results in the existing test run
 - [x] Create dynamic test run and update test results in it
 - [x] Update multi-testrail cases from a single automation scenario 
+- [x] Delete/clean all the existing test runs in a project's suite before test run
 - [x] Static status comments on all the scenarios 
 - [x] Support for RSpec `shared examples` 
 
@@ -136,6 +137,18 @@ end
       suite_id: 110
     ```
     Here, `project_id` and `suite_id` are the dynamically generated id from your testrail account; `run_id` is optional in this case.
+
+5. To delete all test-runs before execution,
+    ```yaml
+    testrail:
+      url: https://your_url.testrail.io/
+      user: your@email.com
+      password: ******
+      clean_testrun: true
+      project_id: 10
+      suite_id: 110
+    ```
+    Set, `clean_testrun: false` if you don't want to clean the existing test runs; but this keyword is optional.
 
 #### Hooks
 

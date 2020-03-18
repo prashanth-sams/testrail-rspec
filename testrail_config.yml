@@ -3,5 +3,6 @@ testrail:
   user: your_username
   password: your_password
   run_id: <run_id>
+  clean_testrun: false
   project_id: <project_id>
   suite_id: <suite_id>
