@@ -112,13 +112,14 @@ module TestrailRSpec
     def check_avail(label, id)
       case label
       when :project_id
-        warn("\n###################### \ninvalid #project_id: #{id} \n######################") if client.send_get("get_project/#{id}").nil?
+        warn("\n###################### \ninvalid #project_id: #{id} \n######################") if client.send_get("get_project/#{id}").nil? || client.send_get("get_project/#{id}")['error'] != nil
       when :suite_id
-        warn("\n###################### \ninvalid #suite_id: #{id} \n######################") if client.send_get("get_suite/#{id}").nil?
+        warn("\n###################### \ninvalid #suite_id: #{id} \n######################") if client.send_get("get_suite/#{id}").nil? || client.send_get("get_suite/#{id}")['error'] != nil
       when :run_id
-        warn("\n###################### \ninvalid #run_id: #{id} \n######################") if client.send_get("get_run/#{id}").nil?
+        warn("\n###################### \ninvalid #run_id: #{id} \n######################") if client.send_get("get_run/#{id}").nil? || client.send_get("get_run/#{id}")['error'] != nil
       when :case_id
-        warn("\n###################### \ninvalid #case_id: #{id} \n######################") if client.send_get("get_case/#{id}").nil?
+        return if client.send_get("get_case/#{id}").class == Integer
+        warn("\n###################### \ninvalid #case_id: #{id} \n######################") if client.send_get("get_case/#{id}").nil? || client.send_get("get_case/#{id}")['error'] != nil
       else
         p "no config available"
       end
