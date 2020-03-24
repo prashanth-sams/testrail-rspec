@@ -62,6 +62,11 @@ module TestRail
       _send_request('POST', uri, data)
     end
 
+    def create_test_run(uri, data)
+      @add_test = true
+      _send_request('POST', uri, data)
+    end
+
     private
     def _send_request(method, uri, data)
       url = URI.parse(@url + uri)
@@ -81,8 +86,11 @@ module TestRail
       end
       response = conn.request(request)
 
+      return if response.code == "400"
+
       if response.body && !response.body.empty?
         result = JSON.parse(response.body)
+        return result['id'] if @add_test
       else
         result = {}
       end
