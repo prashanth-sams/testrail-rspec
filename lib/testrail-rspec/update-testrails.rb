@@ -13,7 +13,7 @@ module TestrailRSpec
       end
 
       if !config.nil? && !config.empty?
-        @config = (@config || {}).merge(config)
+        @config = (@config || {}).merge(config.map { |k, v| [k.to_s, v] }.to_h)
       end
 
       if @config.nil? || @config.empty?
