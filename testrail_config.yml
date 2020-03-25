@@ -3,6 +3,8 @@ testrail:
   user: your_username
   password: your_password
   run_id: <run_id>
-  clean_testrun: false
+  clean_testrun: true
+  skip_testrun_ids: <run_id1>, <run_id2>
   project_id: <project_id>
   suite_id: <suite_id>
+  allow: yes

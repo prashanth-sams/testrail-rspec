@@ -14,12 +14,13 @@ module TestrailRSpec
         raise 'TestRail configuration file is required'
       end
 
+      return if [@config['allow'].nil?, @config['allow']].all? false
       setup_testrail_client
       config_validator if $config_validator.nil?
     end
 
     def upload_result
-
+      return if [@config['allow'].nil?, @config['allow']].all? false
       response = {}
 
       case_list = []
@@ -105,6 +106,7 @@ module TestrailRSpec
     def cleaner
       test_run_list = client.send_get("get_runs/#{@config['project_id']}")
       test_run_list.map do |list|
+        next if !@config['skip_testrun_ids'].nil? && @config['skip_testrun_ids'].to_s.delete(' ').split(',').any?(list['id'].to_s)
         client.send_post("delete_run/#{list['id']}", {"suite_id": @config['suite_id']})
       end
     end
