@@ -7,8 +7,10 @@
 - [x] Create dynamic test run and update test results in it
 - [x] Update multi-testrail cases from a single automation scenario 
 - [x] Delete/clean all the existing test runs in a project's suite before test run
+- [x] Skip specific test-runs from deletion, when `clean_testrun` is set `true`
 - [x] Static status comments on all the scenarios 
 - [x] Support for RSpec `shared examples` 
+- [x] Disable `testrail-rspec` execution on-demand
 
 ## Installation
 
@@ -149,6 +151,30 @@ end
       suite_id: 110
     ```
     Set, `clean_testrun: false` if you don't want to clean the existing test runs; but this keyword is optional.
+
+6. To skip specific test-runs from deletion, when `clean_testrun` is set `true`
+    ```yaml
+    testrail:
+      url: https://your_url.testrail.io/
+      user: your@email.com
+      password: ******
+      clean_testrun: true
+      skip_testrun_ids: 473, 475
+      project_id: 10
+      suite_id: 110
+    ```
+    Here, `skip_testrun_ids: value` is optional.
+
+7. To disable `testrail-rspec` execution 
+    ```yaml
+    testrail:
+      url: https://your_url.testrail.io/
+      user: your@email.com
+      password: ******
+      run_id: 111
+      allow: no
+    ```
+    Here, `skip_testrun_ids: value` is optional.
 
 #### Hooks
 
