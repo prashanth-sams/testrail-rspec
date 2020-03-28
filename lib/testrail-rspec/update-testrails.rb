@@ -59,11 +59,8 @@ module TestrailRSpec
       @run_id = @@run_id = client.create_test_run("add_run/#{@config['project_id']}", {"suite_id": @config['suite_id']}) if @run_id.nil?
 
       case_list.map do |case_id|
-        check_avail(:case_id, case_id)
-        response = client.send_post(
-            "add_result_for_case/#{@run_id}/#{case_id}",
-            {status_id: status_id, comment: message}
-        )
+        response = client.send_post("add_result_for_case/#{@run_id}/#{case_id}",{ status_id: status_id })
+        warn("\n###################### \ninvalid #case_id: #{case_id} \n######################") if (response.nil? || response['error'] != nil) && (response.class != Integer)
       end
 
       response
@@ -127,9 +124,6 @@ module TestrailRSpec
         warn("\n###################### \ninvalid #suite_id: #{id} \n######################") if client.send_get("get_suite/#{id}").nil? || client.send_get("get_suite/#{id}")['error'] != nil
       when :run_id
         warn("\n###################### \ninvalid #run_id: #{id} \n######################") if client.send_get("get_run/#{id}").nil? || client.send_get("get_run/#{id}")['error'] != nil
-      when :case_id
-        return if client.send_get("get_case/#{id}").class == Integer
-        warn("\n###################### \ninvalid #case_id: #{id} \n######################") if client.send_get("get_case/#{id}").nil? || client.send_get("get_case/#{id}")['error'] != nil
       else
         p "no config available"
       end
