@@ -11,6 +11,7 @@
 - [x] Static status comments on all the scenarios 
 - [x] Support for RSpec `shared examples` 
 - [x] Disable `testrail-rspec` execution on-demand
+- [x] Support for environment variables to pass testrail config values
 
 ## Installation
 
@@ -152,7 +153,7 @@ end
     ```
     Set, `clean_testrun: false` if you don't want to clean the existing test runs; but this keyword is optional.
 
-6. To skip specific test-runs from deletion, when `clean_testrun` is set `true`
+6. Skip specific test-runs from deletion: set `clean_testrun: true` & `skip_testrun_ids: value, ...`
     ```yaml
     testrail:
       url: https://your_url.testrail.io/
@@ -165,7 +166,7 @@ end
     ```
     Here, `skip_testrun_ids: value` is optional.
 
-7. To disable `testrail-rspec` execution 
+7. Disable `testrail-rspec` execution: set `allow: yes` 
     ```yaml
     testrail:
       url: https://your_url.testrail.io/
@@ -174,7 +175,20 @@ end
       run_id: 111
       allow: no
     ```
-    Here, `skip_testrun_ids: value` is optional.
+    Here, `allow: yes` is optional. 
+
+8. Use Environment variables to pass testrail config values 
+    ```yaml
+    testrail:
+      url: ENV['URL']
+      user: ENV['TESTRAIL_USER']
+      password: ENV['TESTRAIL_PASSWORD']
+      run_id: ENV['RUN_ID']
+      clean_testrun: false
+      project_id: 10
+      suite_id: 110
+    ```
+    Example, `rake ./demo_spec.rb TESTRAIL_USER=your@email.com TESTRAIL_PASSWORD=****** RUN_ID=564 URL=https://your_url.testrail.io/` 
 
 #### Hooks
 

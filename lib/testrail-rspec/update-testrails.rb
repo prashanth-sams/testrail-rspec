@@ -9,6 +9,14 @@ module TestrailRSpec
 
       if File.exist? './testrail_config.yml'
         @config = YAML.load_file("./testrail_config.yml")['testrail']
+
+        @config = @config.transform_values do |e|
+          if e.class != Integer && e.to_s.include?('ENV[')
+            eval(e)
+          else
+            e
+          end
+        end
         raise 'TestRail configuration file not loaded successfully' if @config.nil?
       else
         raise 'TestRail configuration file is required'
