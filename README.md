@@ -199,6 +199,22 @@ config.after(:each) do |scenario|
 end
 ```
 
+**To use credentials from environment variables**
+- configuration could be provided in the constructor
+- values from the passed `config` hash will take precedence over configuration in `testrail_config.yml`
+```
+testrail_config = {
+  url: ENV['TESTRAIL_URL']
+  user: ENV['TESTRAIL_USER']
+  password: ENV['TESTRAIL_PASSWORD']
+  run_id: ENV['TESTRAIL_RUN_ID']
+}
+
+config.after(:each) do |scenario|
+    TestrailRSpec::UpdateTestRails.new(scenario, config: testrail_config).upload_result
+end
+```
+
 **Is there any demo available for this gem?**
 
 Yes, you can use this `capybara` demo as an example, https://github.com/prashanth-sams/testrail-rspec
