@@ -31,12 +31,12 @@ module TestrailRSpec
       return if [@config['allow'].nil?, @config['allow']].all? false
       response = {}
 
-      case_list = []
-      @scenario.full_description.split(' ').map do |e|
-        val = e.scan(/\d+/).first
-        next if val.nil?
-        case_list << val
-      end
+      case_list = @scenario.full_description
+        .split(' ')
+        .reject{|s| !s.match(/^C\d+$/) }
+        .map{|s| s.scan(/\d+/).first }
+        .reject{|s| s.nil? }
+        .compact
 
       return if case_list.empty?
 
